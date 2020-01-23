@@ -81,6 +81,7 @@
         video: https://www.youtube.com/watch?v=L72fhGm1tfE
 
             left at min 37: (starts moving routes to files and use express router)
+            *look up the sphp module for express (allows PHP interpreting from node server)
             
         
 
