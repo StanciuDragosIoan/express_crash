@@ -5,7 +5,7 @@
         it is very basic
         it is used for both server rendered apps as well as API/Microservices
 
-    Basic syntac for a simpel server:
+    Basic syntac for a simple server:
 
         cosnt express = require("express");
 
@@ -76,11 +76,42 @@
                     *middleware are functions that execute when a request is made to the 
                     server and we can do anything in these functions (server-side)
 
+    
+    Express Router:
+
+        allows us to put routes in separate files and export them
+
+        how to use:
+
+            created a routes/api folder in the root
+
+            inside the 'api' directory, created a members.js file:
+
+            imported express router -> const router = express.Router();
+
+            added members -> const members = require("../../Members");
+
+            (and moved the 2 routes for the fake data in there)
+            
+            used router.get() instead of app.get();
+
+            removed the api/users bit from the routes URL (in members.js left in the router.use() calls
+            of the router.use() either / or /parameters) -> router.get("/:id", (req, res) => {}); *(instead of app.get("api/users"))
+
+            exported route 
+
+            inside index.js used the route:
+
+            app.use("/api/members", require("./routes/api/members"));
+
+
+
+
 
 
         video: https://www.youtube.com/watch?v=L72fhGm1tfE
 
-            left at min 37: (starts moving routes to files and use express router)
+            left at min 58: (starts using express-handlebars tempalte enigine)
             *look up the sphp module for express (allows PHP interpreting from node server)
             
         

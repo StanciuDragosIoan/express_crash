@@ -1,4 +1,4 @@
-//BASCI EXPRESS SERVER
+//BASIC EXPRESS SERVER
 
 
 //bring in express
@@ -7,13 +7,21 @@ const express = require("express");
 const path = require("path");
 //import logger
 const logger = require("./middleware/logger");
-//import members fake data
-const members = require("./Members");
+
 
 
 
 //init app
 const app = express();
+
+
+
+//initialize middleware
+// app.use(logger);
+//body parser middleware  (if commented the 2 lines below won't allow for the JSON data to be sent as response)
+app.use(express.json()); //allow us to use JSON 
+app.use(express.urlencoded({extended: false})); //allow us to use forms & url encoded data
+
 
 //define route (otherwise we'll get the 'Cannot GET' error in the browser)
 //to define a route we use app.get(), app.post(), app.put(), etc..
@@ -30,7 +38,7 @@ const app = express();
 // });
 
 
-//Set a static folder (use() function used to include middleware)
+// ### Set a static folder (use() function used to include middleware)
 /*
 note with a static server we just have to put the files in there and we can serve them
 (we don't need to set the content type, loading the html files, css, images, etc.. much more code)
@@ -39,39 +47,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 
+//bring in users.js from api/routes (2nd param is the actual file imported)
+
+//Members API routes
+app.use("/api/members", require("./routes/api/members"));
 
 
-//initialize middleware
-// app.use(logger);
 
 
-//define get route for a fake api (to get all members)
-app.get("/api/members", (req, res) => res.json(members));
-//returns data as json (note res.json() serialzies 'stringifies' the data)
-
-
-//get single member (:id is a url param here!)
-app.get("/api/members/:id", (req, res) => {
-    //get url param from req obj
-    // res.send(req.params.id);
-
-
-    //some() is a higher order array method that returns false or true
-    const found = members.some(member => member.id === parseInt(req.params.id));
-
-    if(found){
-        /*
-            send the user as JSON obj (note we have to use parseInt() here 
-            because of the === which enforces the type, if we use == parseInt() is not required)
-        */
-        res.json(members.filter(member => member.id === parseInt(req.params.id)));
-    } else {
-        //res.json() sends a 200 status however we send a 400 if no user (bad request)
-        res.status(400).json({ msg: `Member with the id ${req.params.id} not found`});
-    }
-
-    
-});
 
 
 //define PORT (process.env.PORT from server or default to 5000)
