@@ -67,6 +67,9 @@ router.post("/", (req, res) => {
     //send back a response with the entire array of members
     res.json(members);
 
+    //redirect (for template from server otherwise submission will show the members as JSON instead of form table)
+    // res.redirect("/");
+
 });
 
 

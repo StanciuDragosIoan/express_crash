@@ -5,8 +5,12 @@
 const express = require("express");
 //import path
 const path = require("path");
+//import handlebars
+const exphbs = require("express-handlebars");
 //import logger
 const logger = require("./middleware/logger");
+//import members
+const members = require("./Members");
 
 
 
@@ -18,10 +22,24 @@ const app = express();
 
 //initialize middleware
 // app.use(logger);
+
+
+//handlebars middleware
+app.engine('handlebars', exphbs({   defaultLayout: "main"   })); //defaultLayout will be a file named 'main' so layout will be called main.hb
+app.set('view engine', 'handlebars')
+
+
 //body parser middleware  (if commented the 2 lines below won't allow for the JSON data to be sent as response)
 app.use(express.json()); //allow us to use JSON 
-app.use(express.urlencoded({extended: false})); //allow us to use forms & url encoded data
+app.use(express.urlencoded({extended: false})); //allow us to use forms & url encoded data (this will handle form data)
 
+
+//route for handle-bars view (homepage route)
+app.get("/", (req, res) => res.render("index", {
+    //pass data into the view
+    title: "Member App",
+    members
+}));
 
 //define route (otherwise we'll get the 'Cannot GET' error in the browser)
 //to define a route we use app.get(), app.post(), app.put(), etc..
@@ -38,7 +56,7 @@ app.use(express.urlencoded({extended: false})); //allow us to use forms & url en
 // });
 
 
-// ### Set a static folder (use() function used to include middleware)
+// ###### Set a static folder (use() function used to include middleware)  -> this is overwritten by line 36
 /*
 note with a static server we just have to put the files in there and we can serve them
 (we don't need to set the content type, loading the html files, css, images, etc.. much more code)

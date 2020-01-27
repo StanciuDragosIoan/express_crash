@@ -104,14 +104,35 @@
 
             app.use("/api/members", require("./routes/api/members"));
 
+    
+    Express-handlebars
 
+            installed it (npm i express-handlebras)
+            
+            how it's used:
+
+                //import handlebars
+                const exphbs = require("express-handlebars");
+
+                //handlebars middleware
+                app.engine('handlebars', exphbs({   defaultLayout: "main"   })); //defaultLayout will be a file named 'main' so layout will be called main.hb
+                app.set('view engine', 'handlebars')
+
+                //route for handle-bars view (homepage route)
+                app.get("/", (req, res) => res.render("index", {
+                    //pass data into the view
+                    title: "Member App",
+                    members
+                }));
+
+                *created views folder with layouts and 2 templates look syntax there + docs in -> https://github.com/ericf/express-handlebars
 
 
 
 
         video: https://www.youtube.com/watch?v=L72fhGm1tfE
 
-            left at min 58: (starts using express-handlebars tempalte enigine)
+            left at min 58: (starts using express-handlebars template enigine)
             *look up the sphp module for express (allows PHP interpreting from node server)
             
         
